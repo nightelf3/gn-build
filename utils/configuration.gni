@@ -1,0 +1,6 @@
+declare_args() {
+  configuration = "Release"
+  if (is_debug) {
+    configuration = "Debug"
+  }
+}
