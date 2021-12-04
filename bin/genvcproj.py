@@ -44,10 +44,10 @@ def GetIncludes(json):
     return includes
 
   for key, target in json["targets"].items():
-    if "includes" not in target:
+    if "include_dirs" not in target:
       continue
     for include in target["include_dirs"]:
-      includes.append(include)
+      includes.append(include.lstrip('/'))
   return includes
 
 def WriteProject(file, sources, defines, includes):
