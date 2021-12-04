@@ -90,20 +90,20 @@ def WriteProject(file, sources, defines, includes):
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NMakeBuildCommandLine>ninja -C out/Debug</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>$(ProjectDir)build/bin/ninja -C out/Debug</NMakeBuildCommandLine>
     <NMakeOutput>out/Debug/FirstSkiaApp.exe</NMakeOutput>
     <NMakeCleanCommandLine>del /s /q out</NMakeCleanCommandLine>
-    <NMakeReBuildCommandLine>gn gen out/Debug</NMakeReBuildCommandLine>
+    <NMakeReBuildCommandLine>$(ProjectDir)build/bin/gn gen out/Debug</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>''' + debug_defines + ''';$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>''' + debug_includes + ''';$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <IntDir>out\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NMakeBuildCommandLine>ninja -C out/Release</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>$(ProjectDir)build/bin/ninja -C out/Release</NMakeBuildCommandLine>
     <NMakeOutput>out/Release/FirstSkiaApp.exe</NMakeOutput>
     <NMakeCleanCommandLine>del /s /q out/Release</NMakeCleanCommandLine>
-    <NMakeReBuildCommandLine>gn gen out/Release --args="is_debug=false"</NMakeReBuildCommandLine>
+    <NMakeReBuildCommandLine>$(ProjectDir)build/bin/gn gen out/Release --args="is_debug=false"</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>''' + debug_defines + ''';$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>''' + debug_includes + ''';$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <IntDir>out\$(Configuration)\</IntDir>
