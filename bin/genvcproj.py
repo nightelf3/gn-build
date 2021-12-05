@@ -2,28 +2,78 @@ import json
 import sys
 import uuid
 import re
-
-from pprint import pprint
+import os
 
 def FillPath(sources, paths):
   paths = list(filter(lambda x: x != "", paths))
   filename = paths.pop()
-  path = "\\".join(paths)
-  if path not in sources:
-    sources[path] = []
-  sources[path].append(filename)
+  for i in range(1, len(paths) + 1):
+    path = "\\".join(paths[0:i])
+    if path not in sources:
+      sources[path] = []
+  sources["\\".join(paths)].append(filename)
   return sources
 
-def GetSources(json):
-  sources = {}
-  if (json == None):
-    return sources
+# def FillGNTarget(sources, paths):
+#   path = "\\".join(list(filter(lambda x: x != "", paths)))
+#   if path not in sources:
+#     sources[path] = []
 
-  for key, target in json["targets"].items():
-    if "sources" not in target:
-      continue
-    for file in target["sources"]:
-      sources = FillPath(sources, re.split("/+", file))
+#   filename = "BUILD.gn"
+#   if filename not in sources[path]:
+#     sources[path].append(filename)
+
+#   return sources
+
+# def GetSources(json):
+#   sources = {}
+#   if (json == None):
+#     return sources
+
+#   for key, target in json["targets"].items():
+#     if "sources" not in target:
+#       continue
+#     for file in target["sources"]:
+#       sources = FillPath(sources, re.split("/+", file))
+#     sources = FillGNTarget(sources, re.split("/+|:\\w+", key))
+#   return sources
+
+def remove_prefix(text, prefix):
+    return text[len(prefix):] if text.startswith(prefix) else text
+
+def IsFolderAllowed(path):
+  black_list = [
+    "/.git",
+    "/.vs",
+    "/out",
+    "/external/skia/skia",
+    "/build/__pycache__",
+    "/build/.github",
+  ]
+  for item in black_list:
+    if path.startswith(item):
+      return False
+  return True
+
+def IsFileAllowed(path):
+  black_list = [
+    "/project."
+  ]
+  for item in black_list:
+    if path.startswith(item):
+      return False
+  return True
+  
+
+def GetSources(path):
+  sources = {'':[]}
+  for root, _, files in os.walk(path):
+    root = "/" + remove_prefix(root, path).replace("\\", "/").strip("/")
+    if IsFolderAllowed(root):
+      for file in files:
+        file = root + ("/" if root != "/" else "") + file
+        if (IsFileAllowed(file)):
+          sources = FillPath(sources, re.split("/+", file))
   return sources
 
 def GetDefines(json):
@@ -123,6 +173,7 @@ def WriteProject(file, sources, defines, includes):
 </Project>''')
 
 def WriteFilters(file, sources):
+  sources = dict(filter(lambda x : x[0] != "", sources.items()))
   filters = open(file + ".vcxproj.filters", "w+")
   filters.write('''<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -152,7 +203,7 @@ def main():
   with open(sys.argv[1], 'r') as json_file:
     json_data = json.loads(json_file.read())
 
-  sources = GetSources(json_data)
+  sources = GetSources(os.getcwd())
   file = "project"
   WriteProject(file, sources, GetDefines(json_data), GetIncludes(json_data))
   WriteFilters(file, sources)
