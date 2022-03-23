@@ -120,12 +120,12 @@ def WriteProject(file, sources, defines, includes):
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -148,6 +148,7 @@ def WriteProject(file, sources, defines, includes):
     <IncludePath>''' + debug_includes + ''';$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <IntDir>out\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
+    <AdditionalOptions>/std:c++latest</AdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NMakeBuildCommandLine>$(ProjectDir)build/bin/ninja -C out/Release</NMakeBuildCommandLine>
@@ -158,6 +159,7 @@ def WriteProject(file, sources, defines, includes):
     <IncludePath>''' + debug_includes + ''';$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <IntDir>out\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
+    <AdditionalOptions>/std:c++latest</AdditionalOptions>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
