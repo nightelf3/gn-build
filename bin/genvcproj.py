@@ -46,7 +46,7 @@ def IsFolderAllowed(path):
     "/.git",
     "/.vs",
     "/out",
-    "/external/skia/skia",
+    #"/external/skia/skia",
     "/build/__pycache__",
     "/build/.github",
   ]
