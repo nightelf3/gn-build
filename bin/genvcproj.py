@@ -167,7 +167,7 @@ def WriteProject(file, sources, defines, includes):
 ''')
   for path, files in sources.items():
     for filename in files:
-      project.write('      <ClCompile Include="{}" />\n'.format(path + "\\" + filename))
+      project.write('      <ClCompile Include="{}" />\n'.format((path + "\\" if path else "") + filename))
   project.write('''  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
