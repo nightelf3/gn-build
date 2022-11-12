@@ -140,10 +140,10 @@ def WriteProject(file, sources, defines, includes):
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NMakeBuildCommandLine>$(ProjectDir)build/bin/ninja -C out/Debug</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>$(ProjectDir)build\\bin\gn gen out/Debug &amp; $(ProjectDir)build\\bin\\ninja -C out/Debug</NMakeBuildCommandLine>
     <NMakeOutput>out/Debug/FirstSkiaApp.exe</NMakeOutput>
     <NMakeCleanCommandLine>del /s /q out</NMakeCleanCommandLine>
-    <NMakeReBuildCommandLine>$(ProjectDir)build/bin/gn gen out/Debug</NMakeReBuildCommandLine>
+    <NMakeReBuildCommandLine>$(ProjectDir)build\\bin\gn gen out/Debug -B &amp; $(ProjectDir)build\\bin\\ninja -C out/Debug</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>''' + debug_defines + ''';$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>''' + debug_includes + ''';$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <IntDir>out\$(Configuration)\</IntDir>
@@ -151,10 +151,10 @@ def WriteProject(file, sources, defines, includes):
     <AdditionalOptions>/std:c++latest</AdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NMakeBuildCommandLine>$(ProjectDir)build/bin/ninja -C out/Release</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>$(ProjectDir)build\\bin\gn gen out/Release --args="is_debug=false" &amp; $(ProjectDir)build\\bin\\ninja -C out/Release</NMakeBuildCommandLine>
     <NMakeOutput>out/Release/FirstSkiaApp.exe</NMakeOutput>
     <NMakeCleanCommandLine>del /s /q out/Release</NMakeCleanCommandLine>
-    <NMakeReBuildCommandLine>$(ProjectDir)build/bin/gn gen out/Release --args="is_debug=false"</NMakeReBuildCommandLine>
+    <NMakeReBuildCommandLine>$(ProjectDir)build\\bin\gn gen out/Release -B --args="is_debug=false" &amp; $(ProjectDir)build\\bin\\ninja -C out/Release</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>''' + debug_defines + ''';$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>''' + debug_includes + ''';$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <IntDir>out\$(Configuration)\</IntDir>
